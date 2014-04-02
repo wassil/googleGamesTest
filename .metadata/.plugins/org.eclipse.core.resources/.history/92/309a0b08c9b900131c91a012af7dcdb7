@@ -1,0 +1,98 @@
+package com.facebook.testing.jdudak.tictactoe.gifts;
+
+import com.facebook.testing.jdudak.tictactoe.Const;
+import com.facebook.testing.jdudak.tictactoe.R;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.request.GameRequest;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
+import android.annotation.TargetApi;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+
+public class GiftsFragment extends Fragment {
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		setHasOptionsMenu(true);
+		super.onCreate(savedInstanceState);
+	}
+	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_leaderboards, container, false);
+		
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);;
+		
+		final GoogleApiClient client = ((BaseGameActivity)getActivity()).getApiClient();
+		
+		
+		Button buttonSendGift = (Button)v.findViewById(R.id.buttonSendGift);
+		buttonSendGift.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				startActivityForResult(
+					Games.Requests.getSendIntent(
+						client, 
+						GameRequest.TYPE_GIFT, 
+						"Puppies and shit".getBytes(), 
+						Const.GIFT_REQUEST_LIFETIME, 
+						BitmapFactory.decodeResource(getResources(),R.drawable.puppy), 
+						"Puppies and shit"
+					),
+					Const.REQUEST_GIFT
+				);
+			}
+		});
+		
+		Button buttonSendWish = (Button)v.findViewById(R.id.buttonSendWish);
+		buttonSendWish.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				startActivityForResult(
+					Games.Requests.getSendIntent(
+						client, 
+						GameRequest.TYPE_WISH, 
+						"Puppies and shit".getBytes(), 
+						Const.GIFT_REQUEST_LIFETIME, 
+						BitmapFactory.decodeResource(getResources(),R.drawable.puppy), 
+						"I want puppies and shit"
+					),
+					Const.REQUEST_GIFT
+				);
+			}
+		});
+		
+		Button buttonGiftInbox = (Button)v.findViewById(R.id.buttonGiftInbox);
+		buttonGiftInbox.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				startActivityForResult(Games.Requests.getInboxIntent(client), Const.REQUEST_SHOW_GIFT_INBOX);
+			}
+		});
+		
+		return v;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				Log.v(Const.TAG, "back button");
+				getActivity().finish();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+}

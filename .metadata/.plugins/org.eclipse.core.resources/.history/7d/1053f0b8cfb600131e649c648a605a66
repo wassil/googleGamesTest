@@ -1,0 +1,8 @@
+package com.facebook.jdudak.tictactoe;
+
+public class Const {
+	
+	public static final String TAG = "jdudak";
+	public static final int REQUEST_ACHIEVEMENTS = 47;
+
+}

@@ -1,0 +1,11 @@
+package com.facebook.jdudak.tictactoe;
+
+import com.example.tictactoe.R;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+
+public class MainActivity extends SingleFragmentActivity {
+    
+}

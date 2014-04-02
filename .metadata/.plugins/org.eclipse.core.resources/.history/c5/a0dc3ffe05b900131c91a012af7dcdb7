@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_id">701070172690</string>
+    <string name="achievement_click_button_once">CgkIksSn2LMUEAIQCA</string>
+	<string name="achievement_clicked_button_10_times">CgkIksSn2LMUEAIQBA</string>
+	<string name="achievement_clicked_button_20_times">CgkIksSn2LMUEAIQBQ</string>
+	<string name="achievement_clicked_button_30_times">CgkIksSn2LMUEAIQBg</string>
+	<string name="achievement_clicked_button_40_times">CgkIksSn2LMUEAIQBw</string>
+	<string name="achievement_clicked_button_50_times">CgkIksSn2LMUEAIQAw</string>
+	<string name="leaderboard_score">CgkIksSn2LMUEAIQCQ </string>
+</resources>

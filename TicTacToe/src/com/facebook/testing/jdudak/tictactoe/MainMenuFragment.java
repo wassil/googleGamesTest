@@ -1,0 +1,69 @@
+package com.facebook.testing.jdudak.tictactoe;
+
+import com.facebook.testing.jdudak.tictactoe.R;
+import com.facebook.testing.jdudak.tictactoe.achievements.AchievementsActivity;
+import com.facebook.testing.jdudak.tictactoe.gifts.GiftsActivity;
+import com.facebook.testing.jdudak.tictactoe.leaderboards.LeaderboardsActivity;
+import com.facebook.testing.jdudak.tictactoe.multiplayer.MultiplayerActivity;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+
+public class MainMenuFragment extends Fragment {
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_main_menu, container, false);
+		
+		final BaseGameActivity activity = ((BaseGameActivity)getActivity());
+		final GoogleApiClient client = activity.getApiClient();
+
+		Button buttonMultiplayer = (Button)v.findViewById(R.id.buttonMultiplayer);
+		buttonMultiplayer.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				startActivityForResult(new Intent(activity, MultiplayerActivity.class), Const.REQUEST_MULTIPLAYER);
+			}
+		});
+		
+		//achievements
+		Button buttonAchievements = (Button)v.findViewById(R.id.buttonAchievements);
+		buttonAchievements.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				startActivityForResult(new Intent(activity, AchievementsActivity.class), Const.REQUEST_ACHIEVEMENTS);
+			}
+		});
+		
+		//leaderboards
+		Button buttonLeaderboards = (Button)v.findViewById(R.id.buttonLeaderboards);
+		buttonLeaderboards.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				startActivityForResult(new Intent(activity, LeaderboardsActivity.class), Const.REQUEST_LEADERBOARDS);
+			}
+		});
+		
+		//gifts
+		Button buttonGifts = (Button)v.findViewById(R.id.buttonGifts);
+		buttonGifts.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				startActivityForResult(new Intent(activity, GiftsActivity.class), Const.REQUEST_GIFTS);
+			}
+		});
+		
+		return v;
+	}
+	
+	
+}

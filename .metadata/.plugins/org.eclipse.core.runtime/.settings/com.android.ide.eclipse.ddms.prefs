@@ -1,0 +1,10 @@
+ddms.logcat.automonitor.userprompt=true
+eclipse.preferences.version=1
+logcat.view.colsize.Application=223
+logcat.view.colsize.Level=29
+logcat.view.colsize.PID=50
+logcat.view.colsize.TID=50
+logcat.view.colsize.Tag=195
+logcat.view.colsize.Text=543
+logcat.view.colsize.Time=130
+logcat.view.filters.list=name\: 'Unity', tag\: 'Unity', text\: '', pid\: '', app\: '', level\: 'verbose', name\: 'FB', tag\: 'FB', text\: '', pid\: '', app\: '', level\: 'verbose', name\: 'com.whatever.SDKPackage', tag\: '', text\: '', pid\: '', app\: 'com.whatever.SDKPackage', level\: 'verbose', name\: 'GameAgent', tag\: 'GameAgent', text\: '', pid\: '', app\: '', level\: 'verbose', name\: 'AchievementAgent', tag\: 'AchievementAgent', text\: '', pid\: '', app\: '', level\: 'verbose', 

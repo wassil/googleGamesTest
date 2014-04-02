@@ -1,0 +1,47 @@
+package com.facebook.testing.jdudak.tictactoe.multiplayer;
+
+import android.R;
+import android.content.Context;
+import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import com.facebook.testing.jdudak.tictactoe.Const;
+import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener;
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
+public class TurnBasedActivity  extends BaseGameActivity implements OnTurnBasedMatchUpdateReceivedListener{
+	private TurnBasedMatch match;
+	private Button buttonNextTurn;
+	@Override
+	protected void onCreate(Bundle b) {
+		match = (TurnBasedMatch)b.get(Const.EXTRA_MATCH);
+		setContentView(R.layout.activity_turn_based);
+		
+		buttonNextTurn = findViewById(R.id.buttonNextTurn);
+		super.onCreate(b);
+	}
+		
+	@Override
+	public void onSignInFailed() {
+	}
+
+	@Override
+	public void onSignInSucceeded() {
+	}
+
+	@Override
+	public void onTurnBasedMatchReceived(TurnBasedMatch match) {
+		
+	}
+
+	@Override
+	public void onTurnBasedMatchRemoved(String match) {
+		Log.v(Const.TAG, "onTurnBasedMatchRemoved?!");
+	}
+	
+
+}

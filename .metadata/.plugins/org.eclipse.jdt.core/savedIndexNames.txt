@@ -1,0 +1,9 @@
+INDEX VERSION 1.126+C:\Users\jdudak\dev\experiments\tictactoe\android\.metadata\.plugins\org.eclipse.jdt.core
+1150179862.index
+3598781061.index
+2654799280.index
+985775519.index
+2851577423.index
+561765301.index
+3023100672.index
+2775261923.index

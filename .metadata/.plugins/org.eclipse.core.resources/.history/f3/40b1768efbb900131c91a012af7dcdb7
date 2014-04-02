@@ -1,0 +1,23 @@
+package com.facebook.testing.jdudak.tictactoe;
+
+import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener;
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+
+
+public class MainActivity extends SingleFragmentActivity {
+
+	@Override
+	protected Fragment createFragment() {
+		return new MainMenuFragment();
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		
+		
+	}
+}

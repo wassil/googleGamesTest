@@ -1,0 +1,32 @@
+package com.facebook.testing.jdudak.tictactoe.multiplayer;
+
+import android.util.Log;
+
+import com.facebook.testing.jdudak.tictactoe.Const;
+import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener;
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
+public class TurnBasedActivity  extends BaseGameActivity implements OnTurnBasedMatchUpdateReceivedListener{
+
+	@Override
+	public void onSignInFailed() {
+	}
+
+	@Override
+	public void onSignInSucceeded() {
+	}
+
+	@Override
+	public void onTurnBasedMatchReceived(TurnBasedMatch arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTurnBasedMatchRemoved(String arg0) {
+		Log.v(Const.TAG, "onTurnBasedMatchRemoved?!");
+	}
+	
+
+}

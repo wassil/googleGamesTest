@@ -1,0 +1,140 @@
+package com.facebook.testing.jdudak.tictactoe.multiplayer;
+
+import java.util.ArrayList;
+
+import com.facebook.testing.jdudak.tictactoe.Const;
+import com.facebook.testing.jdudak.tictactoe.R;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.multiplayer.Multiplayer;
+import com.google.android.gms.games.multiplayer.realtime.RoomConfig;
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatchConfig;
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+
+public class MultiplayerFragment extends Fragment {
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		setHasOptionsMenu(true);
+		super.onCreate(savedInstanceState);
+	}
+	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_multiplayer, container, false);
+		
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);;
+		
+		final GoogleApiClient client = ((BaseGameActivity)getActivity()).getApiClient();
+		
+		Button buttonSynchronous = (Button)v.findViewById(R.id.buttonSync);
+		buttonSynchronous.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Log.i(Const.TAG, "sync button clicked");
+			}
+		});
+		
+		Button buttonAsynchronous = (Button)v.findViewById(R.id.buttonAsync);
+		buttonAsynchronous.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {				
+				startActivityForResult(
+					Games.TurnBasedMultiplayer.getSelectOpponentsIntent(client, 1, 1, true), 
+					Const.ASYNC_PLAYERS_SELECT
+				);
+			}
+		});
+		
+		Button buttonAsynchronous = (Button)v.findViewById(R.id.buttonAsync);
+		buttonAsynchronous.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				
+		
+				Intent intent = Games.TurnBasedMultiplayer.getInboxIntent(getApiClient());
+				startActivityForResult(intent, RC_LOOK_AT_MATCHES);
+			}
+		});
+		
+		return v;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				Log.v(Const.TAG, "back button");
+				getActivity().finish();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	 @Override
+    public void onActivityResult(int request, int response, Intent data) {
+        super.onActivityResult(request, response, data);
+        final GoogleApiClient client = ((BaseGameActivity)getActivity()).getApiClient();
+        if (request == Const.ASYNC_PLAYERS_SELECT) {
+            if (response != Activity.RESULT_OK) return;
+            final ArrayList<String> invitees = data.getStringArrayListExtra(Games.EXTRA_PLAYER_IDS);
+            Bundle autoMatchCriteria = null;
+            int autoMatchPlayers = data.getIntExtra(Multiplayer.EXTRA_MIN_AUTOMATCH_PLAYERS, 0);
+            if (autoMatchPlayers > 0) {
+                autoMatchCriteria = RoomConfig.createAutoMatchCriteria(1, 1, 0);
+            } else {
+                autoMatchCriteria = null;
+            }
+
+            TurnBasedMatchConfig tbmc = TurnBasedMatchConfig.builder()
+            	.addInvitedPlayers(invitees)
+            	.setAutoMatchCriteria(autoMatchCriteria).build();
+            
+            ResultCallback<TurnBasedMultiplayer.InitiateMatchResult> cb = new ResultCallback<TurnBasedMultiplayer.InitiateMatchResult>() {
+                @Override
+                public void onResult(TurnBasedMultiplayer.InitiateMatchResult result) {
+                	Log.v(Const.TAG, "game init");
+                    /*
+                	// Check if the status code is not success;
+                    if (result.getStatus != GamesStatusCodes.STATUS_OK) {
+                        showError(statusCode);
+                        return;
+                    }
+
+                    TurnBasedMatch match = result.getMatch();
+
+                    // If this player is not the first player in this match, continue.
+                    if (match.getData() != null) {
+                        showTurnUI(match);
+                        return;
+                    }
+
+                    // Otherwise, this is the first player. Initialize the game state.
+                    initGame(match);
+
+                    // Let the player take the first turn
+                    showTurnUI(match);
+                    */
+                }
+            };
+            Games.TurnBasedMultiplayer.createMatch(client, tbmc).setResultCallback(cb);            
+        }
+    }
+}

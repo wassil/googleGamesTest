@@ -1,0 +1,88 @@
+package com.facebook.testing.jdudak.tictactoe.multiplayer;
+
+import java.util.ArrayList;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.facebook.testing.jdudak.tictactoe.Const;
+import com.facebook.testing.jdudak.tictactoe.R;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.multiplayer.Participant;
+import com.google.android.gms.games.multiplayer.turnbased.OnTurnBasedMatchUpdateReceivedListener;
+import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMatch;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
+public class TurnBasedActivity  extends BaseGameActivity implements OnTurnBasedMatchUpdateReceivedListener{
+	private TurnBasedMatch match;
+	private Button buttonNextTurn;
+	private TextView textViewTurn;
+	@Override
+	protected void onCreate(Bundle b) {
+		match = (TurnBasedMatch)this.getIntent().getExtras().get(Const.EXTRA_MATCH);
+		setContentView(R.layout.activity_turn_based);
+		
+		buttonNextTurn = (Button)findViewById(R.id.buttonNextTurn);
+		textViewTurn = (TextView)findViewById(R.id.textViewTurn);
+		buttonNextTurn.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Games.TurnBasedMultiplayer.takeTurn(getApiClient(), match.getMatchId(), "".getBytes(), getNextPlayerId());
+				updateTurnUI(false);
+			}
+		});
+		
+		super.onCreate(b);
+	}
+	
+	private String getNextPlayerId() {
+		String playerId = Games.Players.getCurrentPlayerId(getApiClient());
+        String myParticipantId = match.getParticipantId(playerId);
+		ArrayList<Participant> players = match.getParticipants();
+		for (Participant player : players) {
+			if (player.getParticipantId() != myParticipantId) {
+				return player.getParticipantId();
+			}
+		}
+		return "";
+	}
+	
+	private void updateTurnUI() {
+		updateTurnUI(match.getTurnStatus() == TurnBasedMatch.MATCH_TURN_STATUS_MY_TURN);
+	}
+	
+	private void updateTurnUI(Boolean myTurn) {
+		if (myTurn) {
+			buttonNextTurn.setEnabled(true);
+			textViewTurn.setText("ITS MY TURN");
+		} else {
+			buttonNextTurn.setEnabled(false);
+			textViewTurn.setText("ITS OPPONENTS TURN");
+		}
+	}
+	
+	@Override
+	public void onTurnBasedMatchReceived(TurnBasedMatch match) {
+		this.match = match;
+		updateTurnUI();
+	}
+
+
+	@Override
+	public void onSignInFailed() {
+	}
+
+	@Override
+	public void onSignInSucceeded() {
+	}
+
+	@Override
+	public void onTurnBasedMatchRemoved(String match) {
+		Log.v(Const.TAG, "onTurnBasedMatchRemoved?!");
+	}
+	
+
+}

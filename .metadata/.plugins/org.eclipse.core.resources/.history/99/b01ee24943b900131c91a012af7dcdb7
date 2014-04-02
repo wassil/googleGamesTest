@@ -1,0 +1,16 @@
+package com.facebook.testing.jdudak.tictactoe;
+
+public class Const {
+	
+	public static final String TAG = "jdudak";
+	
+	// used in startActivityForResult
+	public static final int REQUEST_ACHIEVEMENTS = 47;
+	public static final int REQUEST_LEADERBOARDS = 74;
+	public static final int REQUEST_GIFT = 147;
+	public static final int REQUEST_SHOW_GIFT_INBOX = 174;
+	
+	//in days
+	public static final int GIFT_REQUEST_LIFETIME = 5; 
+
+}

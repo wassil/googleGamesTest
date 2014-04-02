@@ -1,0 +1,53 @@
+package com.facebook.testing.jdudak.tictactoe;
+import com.facebook.testing.jdudak.tictactoe.R;
+import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+
+public class MainMenuFragment extends Fragment {
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.fragment_main_menu, container, false);
+		
+		Button buttonNewGame = (Button)v.findViewById(R.id.buttonNewGame);
+		buttonNewGame.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Log.i(Const.TAG, "new game button clicked");
+			}
+		});
+		
+		Button buttonAchievement = (Button)v.findViewById(R.id.buttonClickAchievement);
+		buttonAchievement.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Log.i(Const.TAG, "achievement button clicked");
+			}
+		});
+		
+		
+		Button buttonShowAchievements = (Button)v.findViewById(R.id.buttonshowAchievements);
+		final BaseGameActivity activity = (BaseGameActivity)this.getActivity();
+		buttonShowAchievements.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				startActivityForResult(Games.Achievements.getAchievementsIntent(activity.getApiClient()), Const.REQUEST_ACHIEVEMENTS);
+			}
+		});
+		
+		
+		return v;
+	}
+	
+}
+
+

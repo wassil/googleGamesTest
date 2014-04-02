@@ -1,0 +1,64 @@
+setup:
+	have to create game in their online service  https://play.google.com/apps/publish/?dev_acc=14752603202825848037#GameListPlace
+	update android sdk(broke eclipse), redownload android sdk, update
+	downloaded libraries, included into eclipse workspace, set dependency
+	code examples tells me to use BaseGameUtils, link to github repo with android examples
+	download code, locate the library in repo, add to my project
+	made my activity extend their BaseGameActivity
+	set it up, run "java.lang.IllegalStateException: A fatal developer error has occurred. Check the logs for further information." there is nothing in logs
+	googled, its in unfiltered log, I had to add app id to strings.xml
+	finally got the integration
+	*see user point of view*
+	nope, I was able to TOS the app and it wasn't working afterwards
+
+development:
+	cannot use emulator, google play services must be installed
+	after initial login, I'm no longer able to log in again
+	restarting eclipse fixed that
+
+	final GoogleApiClient client = ((BaseGameActivity)getActivity()).getApiClient();
+
+achievements:
+	defined on server - ids to use them
+	set:
+	Games.Achievements.unlock(client, getResources().getString(R.string.achievement_click_button_once));
+	Games.Achievements.increment(client, getResources().getString(R.string.achievement_clicked_button_10_times), 1);
+	show:
+	startActivityForResult(
+	  Games.Achievements.getAchievementsIntent(client), 
+	  Const.REQUEST_ACHIEVEMENTS
+	);
+
+	using only incremental achievements did not work for me, had to add one regular one, afterwards everything worked
+	there is no way to "reset" achievement in dashboard
+
+leaderboards:
+	defined on server - ids to use them
+	Games.Leaderboards.submitScore(client, getResources().getString(R.string.leaderboard_score), 1337);
+	startActivityForResult(
+		Games.Leaderboards.getLeaderboardIntent(client, getResources().getString(R.string.leaderboard_score)),
+		Const.REQUEST_LEADERBOARDS
+	);
+
+gifts:
+	give a gift or request one
+	accepting request automatically sends containing gift to the person
+	even for people not playing your game - links to play store
+	ability to mute app
+	ability to turn off all the gifts
+	kinda generic visuals
+	demo app is just not in the repo
+
+multiplayer:
+	not shipping love - documentation AND examples out of date
+	oh wow, there are rookie mistakes in examples
+
+documentation:
+
+user point of view:
+	api uses thing called google game services, 
+	to use google game services, you must use google+ account.
+	To do that you have to accept that "By continuing, you agree that Google will use your location..."
+	after that you have to tos the app(similar to ours)
+
+	google has standalone games app with games feed, discovery etc.
